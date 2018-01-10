@@ -1,0 +1,71 @@
+<html>
+    <head>
+            <meta charset="utf-8">
+            <title>ZeMap Project</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <link rel="stylesheet" href="style.css">
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8C98zvnPyz9jKPLnPDOaX7qPM-VsElQA"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+    </head>
+    <body>
+            <div ng-app="myApp" 
+                ng-controller="myController">
+        
+                <table>
+                    <tr>
+                        <th>ID</th>
+                            <th>Bird Name</th>
+                                <th>Type of Bird</th>
+                    </tr>
+        
+                    <tr ng-repeat="birds in list">
+                        <td>{{birds.ID}}</td>
+                            <td>{{birds.Name}}</td>
+                                <td>{{birds.Type}}</td>
+                    </tr>
+                </table>
+            </div>
+        </body>
+        <script>
+                var app = angular.module('myApp', []);
+                app.controller('myController',
+                    function ($scope, $http) {
+            
+                        var request = {
+                            method: 'get',
+                            url: 'custom.json',
+                            dataType: 'json',
+                            contentType: "application/json"
+                        };
+            
+                        $scope.arrBirds = new Array;
+                        
+                        $http({
+                            method: 'get',
+                            url: 'custom.json',
+                            dataType: 'json',
+                            contentType: "application/json"
+                         }).then(function (jsonData){
+                             console.log(jsonData.data);
+                            $scope.arrBirds = jsonData;
+                                $scope.list = $scope.arrBirds.data;
+          
+                         },function (error){
+                      
+                         });
+
+                  /*      $http(request)
+                            .success(function (jsonData) {
+                                $scope.arrBirds = jsonData;
+                                $scope.list = $scope.arrBirds;
+                            })
+                            .error(function () {
+            
+                            });
+                            */
+                    });
+            </script>
+</html>
